@@ -1,0 +1,166 @@
+In TI.CSAR file
+
+nodetypes/radon.nodes.testing/JMeter/files/create/create.yml
+
+
+------------------------BEFORE--------------------------------
+
+- name: create
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Install Python pip module prerequisites (Linux)
+      apt:
+        name:
+          - python3-pip
+          - python3-virtualenv
+          - python3-setuptools
+          - python3-docker
+        update_cache: yes
+        state: present
+      when: ansible_os_family == "Debian"
+      become: yes
+
+    - name: Run JMeterAgent Docker image
+      docker_container:
+        name: CTTAgent
+        image: radonconsortium/radon-ctt-agent:jmeter
+        pull: yes
+        ports: 
+          - "5000:5000"
+
+--------------------AFTER----------------------------------------
+- name: create
+  hosts: localhost
+  gather_facts: yes
+  tasks:
+    - name: Install Python pip module prerequisites (Linux)
+      apt:
+        name:
+          - python3-pip
+          - python3-virtualenv
+          - python3-setuptools
+          - python3-docker
+        update_cache: yes
+        state: present
+      when: ansible_os_family == "Debian"
+      become: yes
+
+    - name: Run JMeterAgent Docker image
+      docker_container:
+        name: CTTAgent
+        image: ustctt/ctt-agent:jmeter
+        pull: yes
+        ports: 
+          - "5000:5000"
+
+
+
+In SUT.CSAR file
+
+_definitions/radonpoliciestesting__Test.tosca
+
+------------------------BEFORE--------------------------------
+
+policy_types:
+  radon.policies.testing.Test:
+    derived_from: tosca.policies.Root
+    metadata:
+      targetNamespace: "radon.policies.testing"
+      abstract: "true"
+      final: "false"
+    properties:
+      ti_blueprint:
+        type: string
+        description: Reference to a RADON test infrastructure blueprint
+        required: true
+        status: supported
+      test_id:
+        type: string
+        description: Identifier for this test case
+        required: false
+        status: supported
+
+
+--------------------AFTER----------------------------------------
+
+policy_types:
+  radon.policies.testing.Test:
+    metadata:
+      targetNamespace: "radon.policies.testing"
+      abstract: "true"
+      final: "false"
+    properties:
+      ti_blueprint:
+        type: string
+        description: Reference to a RADON test infrastructure blueprint
+        required: true
+        status: supported
+      test_id:
+        type: string
+        description: Identifier for this test case
+        required: false
+        status: supported
+
+
+In SUT.CSAR file
+
+_definitions/radonpoliciestesting__LoadTest.tosca
+
+------------------------BEFORE--------------------------------
+
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+imports:
+  - file: radonpoliciestesting__Test.tosca
+    namespace_uri: radon.policies.testing
+    namespace_prefix: radonpoliciestesting
+policy_types:
+  radon.policies.testing.LoadTest:
+    derived_from: radon.policies.testing.Test
+    metadata:
+      targetNamespace: "radon.policies.testing"
+      abstract: "true"
+      final: "false"
+    properties:
+      hostname:
+        type: string
+        description: Convenience property to specify a hostname as the target of the load test (optional)
+        required: false
+        status: supported
+      port:
+        type: string
+        description: Convenience property to specify a port as the target of the load test (optional)
+        required: false
+        status: supported
+    targets: [ tosca.nodes.SoftwareComponent ]
+
+
+--------------------AFTER----------------------------------------
+
+tosca_definitions_version: tosca_simple_yaml_1_3
+
+imports:
+  - file: radonpoliciestesting__Test.tosca
+    namespace_uri: radon.policies.testing
+    namespace_prefix: radonpoliciestesting
+policy_types:
+  radon.policies.testing.LoadTest:
+    derived_from: radon.policies.testing.Test
+    metadata:
+      targetNamespace: "radon.policies.testing"
+      abstract: "true"
+      final: "false"
+    properties:
+      hostname:
+        type: string
+        description: Convenience property to specify a hostname as the target of the load test (optional)
+        required: false
+        status: supported
+      port:
+        type: string
+        description: Convenience property to specify a port as the target of the load test (optional)
+        required: false
+        status: supported
+#    targets: [ tosca.nodes.SoftwareComponent ]
+
