@@ -79,8 +79,8 @@ TransferManager xfer_mgr = TransferManagerBuilder.standard()
    .withS3Client(s3)
                .withDisableParallelDownloads(false)
                .build();
-ArrayList list = new ArrayList();  
-Scanner s = new Scanner(new File(&quot;/mnt/paths.txt&quot;)); //path to txt file
+/*ArrayList list = new ArrayList();  
+Scanner s = new Scanner(new File(&quot;/home/afsana/Spring2020/MobileCloudLab/Validation/paths.txt&quot;)); //path to txt file
 while (s.hasNextLine()){
     list.add(s.nextLine());
     
@@ -96,9 +96,15 @@ for (int i = 0; i &lt; list.size();i++)
 
 	Upload xfer = xfer_mgr.upload(bucketName, obj, f);	
 	xfer.waitForCompletion();	
-}   
-xfer_mgr.shutdownNow();
+}  */ 
 
+File f = new File(&quot;/mnt/dt-5/100000.jpg&quot;); //specify path to file
+
+String obj = &quot;upload.jpg&quot;;
+Upload xfer = xfer_mgr.upload(bucketName, obj, f);	
+xfer.waitForCompletion();	
+xfer_mgr.shutdownNow();
+//SampleResult.setResponseCode(&quot;201&quot;);
 </stringProp>
           <stringProp name="scriptLanguage">java</stringProp>
         </JSR223Sampler>
