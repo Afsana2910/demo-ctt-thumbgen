@@ -98,7 +98,7 @@ for (int i = 0; i &lt; list.size();i++)
 	xfer.waitForCompletion();	
 }  */ 
 
-File f = new File(&quot;/mnt/dt-5/100000.jpg&quot;); //specify path to file
+File f = new File(&quot;/mnt/dt-25/100000.jpg&quot;); //specify path to file
 
 String obj = &quot;upload.jpg&quot;;
 Upload xfer = xfer_mgr.upload(bucketName, obj, f);	
