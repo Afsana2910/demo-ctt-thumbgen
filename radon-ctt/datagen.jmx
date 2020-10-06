@@ -57,6 +57,7 @@ import com.amazonaws.services.s3.transfer.Upload;
 String bucketName = &quot;radon-utr-thumbgen1&quot;;
 String objectName = &quot;image&quot;;
 String region = &quot;eu-north-1&quot;;
+ArrayList list1 = new ArrayList(); 
 Scanner k = new Scanner(new File(&quot;/mnt/aws.txt&quot;)); //path to txt file
 while (k.hasNextLine()){
     list1.add(k.nextLine());
