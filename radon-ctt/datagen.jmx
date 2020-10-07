@@ -82,7 +82,7 @@ String fileName = args[0].substring(index + 1);
 String obj = 	objectName + fileName; 
 Upload xfer = xfer_mgr.upload(bucketName, obj, f);	
 xfer.waitForCompletion();	
-
+xfer_mgr.shutdownNow();
 </stringProp>
           <stringProp name="scriptLanguage">java</stringProp>
         </JSR223Sampler>
